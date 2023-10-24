@@ -11,10 +11,8 @@ const ProductSchema = new Schema(
     savedByUsers: [String],
     downloads: [{ date: Date, user: String }],
     tags: [String],
-    file: {
-      id: String,
-      name: String,
-    },
+    driveId: { type: String },
+    driveName: { type: String },
   },
 
   { timestamps: true }

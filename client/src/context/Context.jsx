@@ -44,7 +44,9 @@ const initialState = {
     toggleAuthModal: false,
     toggleSearch: false,
     googleDriveFile: [],
-    admin: []
+    admin: [],
+    driveId: "",
+    driveName: ""
 }
 
 const Context = createContext({})

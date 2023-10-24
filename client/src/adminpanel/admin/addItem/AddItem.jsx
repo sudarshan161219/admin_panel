@@ -14,14 +14,18 @@ import { AiOutlineUpload } from "react-icons/ai"
 import { FaGoogleDrive } from "react-icons/fa"
 
 const AddItem = () => {
-  const { uploadFn, isLoading, UploadFIle_toGoogleDrive, isUploading, googleDriveFile, cancelGoogleDriveFn } = useAppContext()
+  const { uploadFn, isLoading, UploadFIle_toGoogleDrive, isUploading, googleDriveFile, cancelGoogleDriveFn, driveId,
+    driveName } = useAppContext()
+
+
   const [state, setState] = useState({
     name: '',
     description: '',
     price: '',
     imageUrl: '',
     tags: [],
-    file: {}
+    driveId: driveId,
+    driveName: driveName
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImg, setSelectedImg] = useState(null)
@@ -30,13 +34,14 @@ const AddItem = () => {
 
 
   useEffect(() => {
-    if ( googleDriveFile&& googleDriveFile.id) {
-      setState({
-        ...state,
-        file: googleDriveFile
-      });
-    }
-  }, [])
+    setState({
+      ...state,
+      driveId: driveId,
+      driveName: driveName
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [driveId, driveName])
+
 
   function handleKeyDown(e) {
     if (e.key !== 'Enter') return

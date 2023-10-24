@@ -205,12 +205,16 @@ const reducer = (state, action) => {
     }
 
     if (action.type === GOOGLE_DRIVE_FILE_SUCCESS) {
+
         return {
             ...state,
             isUploading: false,
-            googleDriveFile: action.payload.googlefile
+            driveId: action.payload.googlefile. id,
+            driveName:  action.payload.googlefile.name
         }
     }
+
+
 
     if (action.type === GOOGLE_DRIVE_FILE_ERROR) {
         return {
@@ -226,11 +230,13 @@ const reducer = (state, action) => {
         };
     }
 
+
+
     if (action.type === LOGOUT_USER) {
         return {
             ...initialState,
             admin: null,
-            googleDriveFile:null,
+            googleDriveFile: null,
             userLoading: false
         };
     }

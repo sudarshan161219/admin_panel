@@ -54,9 +54,18 @@ const uploadFile = (req, res) => {
 };
 
 const addItem = async (req, res) => {
-  const { name, description, price, imageUrl, tags, file } = req.body;
+  const { name, description, price, imageUrl, tags, driveId, driveName } =
+    req.body;
 
-  if (!name || !description || !price || !imageUrl || !tags || !file) {
+  if (
+    !name ||
+    !description ||
+    !price ||
+    !imageUrl ||
+    !tags ||
+    !driveId ||
+    !driveName
+  ) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -74,7 +83,8 @@ const addItem = async (req, res) => {
     price,
     imageUrl,
     tags,
-    file,
+    driveId,
+    driveName,
   });
 
   return res.status(StatusCodes.CREATED).json({
