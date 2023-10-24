@@ -27,22 +27,35 @@ const uri = process.env.MONGO_URI;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json({ limit: "50mb" }));
-app.use(helmet());
+// app.use(helmet());
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'"],
+//         "img-src": ["'self'", "https: data:"],
+//       },
+//     },
+//   })
+// );
+
+
+app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        "img-src": ["'self'", "https: data:"],
-      },
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data: blob:"],
     },
   })
 );
+
 app.use(xss());
 app.use(mongoSanitize());
 app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
 app.use(cookieParser());
+app.use(cors());
 app.use(
   session({
     secret: "keyboard_+cat",
