@@ -3,14 +3,14 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors/export.mjs";
 import { JWT } from "google-auth-library";
 import fs from "fs";
-import credentials from "../credentials.json" assert { type: "json" };
 import Product from "../models/Product.mjs";
-const { client_email, private_key } = credentials;
+import dotenv from "dotenv";
+dotenv.config();
 
 // Create a new JWT client
 const client = new JWT({
-  email: client_email,
-  key: private_key,
+  email: process.env.CLIENT_EMAIL,
+  key: process.env.PRIVATE_KEY,
   scopes: ["https://www.googleapis.com/auth/drive"],
 });
 const uploadFile = (req, res) => {
@@ -23,7 +23,7 @@ const uploadFile = (req, res) => {
   const file = req.file;
   const fileMetadata = {
     name: file.originalname,
-    parents: ["1KLd-P7tYDIuHbu5UwpMXiLPVkypbWqV-"], // Specify the folder ID here
+    parents: ["1KLd-P7tYDIuHbu5UwpMXiLPVkypbWqV-"],
   };
 
   const media = {
