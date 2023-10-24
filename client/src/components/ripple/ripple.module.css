@@ -1,0 +1,10 @@
+.container {
+  padding: 0.2rem;
+  border-radius: 100%;
+}
+
+/* .container:hover {
+  background-color: #000000a8;
+  opacity: 0.2;
+  transition: ease 0.3s;
+} */

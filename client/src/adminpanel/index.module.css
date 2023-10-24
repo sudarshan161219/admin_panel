@@ -1,0 +1,23 @@
+.container {
+  padding: 10px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logoIconContainer {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+  .img {
+    width: 120px;
+  }
+  .icon {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  

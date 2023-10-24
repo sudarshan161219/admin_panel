@@ -1,0 +1,76 @@
+.container {
+  padding: 13px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.heading {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--softTextColor);
+}
+.blox > div {
+  padding: 1rem;
+  background-color: var(--softBg);
+  display: flex;
+  justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.span {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--softTextColor);
+}
+
+.iconInput {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icons {
+  color: #d32f2f;
+  font-size: 1rem;
+  margin-left: 0.3rem;
+}
+
+.bloxx {
+  padding: 1rem;
+  background-color: var(--softBg);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.btnLo {
+  display: flex;
+  justify-content: center;
+}
+
+.input{
+  border: none;
+  outline: none;
+  font-family: inherit;
+  padding: 0.3rem 0.5rem;
+  
+}
+
+@media screen and (min-width: 650px) {
+  .container {
+    width: 500px;
+    margin: 0 auto;
+    
+  }
+}
