@@ -180,3 +180,8 @@ body {
 #root {
 display: contents;
 }
+
+.paper{
+  padding: 1rem;
+  background-color: aqua;
+}

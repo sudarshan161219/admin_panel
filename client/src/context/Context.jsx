@@ -28,9 +28,11 @@ import {
     UPDATE_ADMIN_BEGIN,
     UPDATE_ADMIN_SUCCESS,
     UPDATE_ADMIN_ERROR,
+    GET_PRODUCT_BEGIN,
+    GET_PRODUCT_SUCCESS,
+    GET_PRODUCT_ERROR,
     LOGOUT_USER
 } from "./action"
-
 
 const initialState = {
     isLoading: false,
@@ -46,7 +48,17 @@ const initialState = {
     googleDriveFile: [],
     admin: [],
     driveId: "",
-    driveName: ""
+    driveName: "",
+    product: [],
+    search: '',
+    category: 'all',
+    sort: 'latest',
+    // tag: ' all',
+    price: 0,
+    products: [],
+    totalproducts: 0,
+    numofPages: 1,
+    page: 1,
 }
 
 const Context = createContext({})
@@ -81,7 +93,6 @@ const ContextProvider = ({ children }) => {
     const toggleMenuFn = () => {
         dispatch({ type: TOGGLE_MENU })
     }
-
 
     const toggleProfileMenuFn = () => {
         dispatch({ type: TOGGLE_PROFILE_MENU })
@@ -229,6 +240,29 @@ const ContextProvider = ({ children }) => {
         }
     };
 
+    const getProductFn = async () => {
+        const { search,  sort, page} = state;
+        let url = `/api/admin/item?page=${page}&sort=${sort}`;
+        if (search) {
+            url = url + `&search=${search}`;
+        }
+        dispatch({ type: GET_PRODUCT_BEGIN });
+
+        try {
+            const { data } = await authFetch.get(url);
+            const { products, totalProducts, numofPages } = data;
+            dispatch({
+                type: GET_PRODUCT_SUCCESS,
+                payload: { products, totalProducts, numofPages },
+            });
+            // dispatch({ type: CLEAR_VALUES });
+        } catch (error) {
+            dispatch({
+                type: GET_PRODUCT_ERROR,
+            });
+        }
+    }
+
 
     const cancelGoogleDriveFn = () => {
         dispatch({ type: CANCEL_GOOGLE_DRIVE_FILE_UPLOAD });
@@ -237,21 +271,22 @@ const ContextProvider = ({ children }) => {
 
     const logoutUser = async () => {
         try {
-          await authFetch.post("/api/admin//logout");
-          dispatch({ type: LOGOUT_USER });
+            await authFetch.post("/api/admin//logout");
+            dispatch({ type: LOGOUT_USER });
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
 
 
     useEffect(() => {
         getAdmin()
+        
     }, [])
 
 
     return (
-        <Context.Provider value={{ ...state, toggleMenuFn, toggleSearchFn, toggleAdminMenuFn, toggleProfileMenuFn, toggleAuthModalFn, adminregisterFn, adminloginFn, uploadFn, UploadFIle_toGoogleDrive, cancelGoogleDriveFn, updateAdmnFn,  logoutUser }} >
+        <Context.Provider value={{ ...state, toggleMenuFn, toggleSearchFn, toggleAdminMenuFn, toggleProfileMenuFn, toggleAuthModalFn, adminregisterFn, adminloginFn, uploadFn, UploadFIle_toGoogleDrive, cancelGoogleDriveFn, updateAdmnFn, logoutUser, getProductFn }} >
             {children}
         </Context.Provider>
     )
@@ -261,4 +296,4 @@ const useAppContext = () => {
     return useContext(Context)
 }
 
-export { ContextProvider, useAppContext, initialState,  };
+export { ContextProvider, useAppContext, initialState, };

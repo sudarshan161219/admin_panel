@@ -30,6 +30,9 @@ import {
     UPDATE_ADMIN_BEGIN,
     UPDATE_ADMIN_SUCCESS,
     UPDATE_ADMIN_ERROR,
+    GET_PRODUCT_BEGIN,
+    GET_PRODUCT_SUCCESS,
+    GET_PRODUCT_ERROR,
 } from "./action"
 
 
@@ -209,8 +212,8 @@ const reducer = (state, action) => {
         return {
             ...state,
             isUploading: false,
-            driveId: action.payload.googlefile. id,
-            driveName:  action.payload.googlefile.name
+            driveId: action.payload.googlefile.id,
+            driveName: action.payload.googlefile.name
         }
     }
 
@@ -226,11 +229,10 @@ const reducer = (state, action) => {
     if (action.type === CANCEL_GOOGLE_DRIVE_FILE_UPLOAD) {
         return {
             ...state,
-            googleDriveFile: []
+            driveId: "",
+            driveName: ""
         };
     }
-
-
 
     if (action.type === LOGOUT_USER) {
         return {
@@ -260,6 +262,23 @@ const reducer = (state, action) => {
         };
     }
 
+    if (action.type === GET_PRODUCT_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+
+    if (action.type === GET_PRODUCT_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            products: action.payload.products,
+            totalProducts: action.payload.totalProducts,
+            numofPages: action.payload.numofPages,
+        };
+    }
+
+    if (action.type === GET_PRODUCT_ERROR) {
+        return { ...state, isLoading: true, showAlert: false };
+    }
 
 
 

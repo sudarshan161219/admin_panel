@@ -46,8 +46,8 @@ const AdminSidebar = () => {
                         </li>
 
                         <li className={styles.li}>
-                            <Link onClick={toggleAdminMenuFn} to="/admin/users" className={styles.link}>
-                            <FiUsers className={styles.icons} /> Users
+                            <Link onClick={toggleAdminMenuFn} to="/admin/stats" className={styles.link}>
+                            <FiUsers className={styles.icons} /> Stats
                             </Link>
                         </li>
 

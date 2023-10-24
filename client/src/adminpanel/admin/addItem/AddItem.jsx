@@ -6,7 +6,6 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useAppContext } from '../../../context/Context';
 import { toast } from "react-hot-toast";
@@ -14,16 +13,16 @@ import { AiOutlineUpload } from "react-icons/ai"
 import { FaGoogleDrive } from "react-icons/fa"
 
 const AddItem = () => {
-  const { uploadFn, isLoading, UploadFIle_toGoogleDrive, isUploading, googleDriveFile, cancelGoogleDriveFn, driveId,
+  const { uploadFn, isLoading, UploadFIle_toGoogleDrive, isUploading, cancelGoogleDriveFn, driveId,
     driveName } = useAppContext()
 
 
   const [state, setState] = useState({
     name: '',
-    description: '',
     price: '',
     imageUrl: '',
     tags: [],
+    category: '',
     driveId: driveId,
     driveName: driveName
   });
@@ -39,7 +38,7 @@ const AddItem = () => {
       driveId: driveId,
       driveName: driveName
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [driveId, driveName])
 
 
@@ -133,20 +132,6 @@ const AddItem = () => {
           </FormControl>
 
           <FormControl >
-            <InputLabel htmlFor="outlined-adornment-amount">Description</InputLabel>
-            <OutlinedInput
-              onChange={handleInputChange}
-              size="small"
-              id="outlined-adornment-amount"
-              startAdornment={<InputAdornment position="start"></InputAdornment>}
-              label="Description"
-              name="description"
-            />
-
-          </FormControl>
-
-
-          <FormControl >
             <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
             <OutlinedInput
               onChange={handleInputChange}
@@ -160,6 +145,23 @@ const AddItem = () => {
             />
 
           </FormControl>
+
+
+          <FormControl >
+            <InputLabel htmlFor="outlined-adornment-amount">Category</InputLabel>
+            <OutlinedInput
+              onChange={handleInputChange}
+              size="small"
+              id="outlined-adornment-amount"
+              startAdornment={<InputAdornment position="start"></InputAdornment>}
+              label="Category"
+              name="category"
+              type="text"
+
+            />
+
+          </FormControl>
+
 
           <div className={styles.tagsinputcontainer}>
             {
@@ -195,19 +197,15 @@ const AddItem = () => {
           </div>
         </div>
 
-
-        <div style={{ height: selectedImg ? "auto" : "300px" }} className={styles.imginputcontainer}>
-          {selectedImg && <img src={selectedImg} className={styles.selectedFile} alt="Selected Image" />}
-
-
-          <div className={styles.fileinputcontainer}>
-            <label className={styles.fileinputbutton} htmlFor="fileInput">
-              upload paid file
+        <div className={styles.boxcontainer}>
+          <div style={{ height: selectedImg ? "auto" : "300px" }} className={styles.imginputcontainer}>
+            <label htmlFor="fileInput">
+              {selectedImg ? <img className={styles.selectedFile} src={selectedImg} alt="avatar" /> : <Chip className={styles.chip} label="Upload paid file here..." variant="outlined" />}
             </label>
             <input
+              className={styles.fileinput}
               type="file"
               id="fileInput"
-              className={styles.fileinputhidden}
               onChange={handleFileChange}
               accept="image/*"
             />
@@ -224,7 +222,7 @@ const AddItem = () => {
 
             </div>}
         </div>
-        <Button disabled={googleDriveFile === null} onClick={upload} variant="contained">Add Item</Button>
+        <Button disabled={driveId === ""} onClick={upload} variant="contained">Add Item</Button>
 
       </div>
     </div >

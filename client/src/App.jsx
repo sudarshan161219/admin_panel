@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedAdminRoute from "./protectedRoute/ProtectedAdminRoute";
 import {
   AdminSharedLayout, Auth, Panel, AddItem,
-  Users,
+  Stats,
   MyItems,
 } from "./adminpanel/export"
 import { Toaster } from "react-hot-toast"
@@ -21,7 +21,7 @@ const App = () => {
         >
           <Route index element={<Panel />} />
           <Route path="add_item" element={<AddItem />} />
-          <Route path="users" element={<Users />} />
+          <Route path="stats" element={<Stats />} />
           <Route path="my_Item" element={<MyItems />} />
         </Route>
         <Route path="/" element={<Auth />} />

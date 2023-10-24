@@ -13,14 +13,13 @@ import { fileURLToPath } from "url";
 import path from "path";
 import connectDB from "./Db/connectDb.mjs";
 import adminRoute from "./route/adminRoute.mjs";
-import uploadRoute from "./route/uploadRoute.mjs"
+import uploadRoute from "./route/uploadRoute.mjs";
 //* middleware imports
 import notFoundMiddleware from "./middlewares/not-found.mjs";
 import errorHandlerMiddleware from "./middlewares/error-handler.mjs";
 import auth from "./middlewares/auth.mjs";
 import passport from "passport";
 import session from "express-session";
-
 
 const PORT = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
@@ -38,7 +37,6 @@ app.use(express.json({ limit: "50mb" }));
 //     },
 //   })
 // );
-
 
 app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
 app.use(
@@ -64,18 +62,15 @@ app.use(
   })
 );
 
-
 //* api routes
 
 app.use("/api/admin", adminRoute);
-app.use("/api/admin", uploadRoute);
-
+app.use("/api/admin", auth, uploadRoute);
 
 // // //* HTTP GET Request
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
 });
-
 
 //* Middlewares
 app.use(notFoundMiddleware);
