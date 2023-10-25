@@ -24,7 +24,10 @@ const MyItems = () => {
 
 
     if (isLoading) {
-        return <h1>LOADING.....🙄</h1>
+        return (
+            <div className={styles.headContainer}> <h1 className={styles.heading}>LOADING.....🙄</h1> </div>
+        )
+
     }
 
     return (
@@ -44,40 +47,39 @@ const MyItems = () => {
                     />
                 </Paper>
             </div>
+            {products.length === 0 ?
 
-            {products.length === 0 ?  
-            
-            <div className={styles.headContainer}> <h1  className={styles.heading}>No Products</h1> </div>
+                <div className={styles.headContainer}> <h1 className={styles.heading}>No Products</h1> </div>
 
-            :
+                :
 
-            <div className={styles.downloadsContainer} >
-                {products.map((item, idx) => (
-                    <div key={idx} className={styles.card}>
-                        <div className={styles.imgContainer}>
-                            <img className={styles.img} src={item.imageUrl} alt={item.name} />
+                <div className={styles.downloadsContainer} >
+                    {products.map((item, idx) => (
+                        <div key={idx} className={styles.card}>
+                            <div className={styles.imgContainer}>
+                                <img className={styles.img} src={item.imageUrl} alt={item.name} />
+                            </div>
+
+                            <div className={styles.InfoContainer}>
+                                <span>name: {item.name}</span>
+                                <span>category: {item.category}</span>
+                                <span>price: ₹{item.price}</span>
+
+                                <div className={styles.tagContainer} >
+                                    {item.tags.map((item, idx) => <span key={idx}>{item}</span>)}
+                                </div>
+
+
+                                <div className={styles.stats} >
+                                    <Chip icon={<AiOutlineDownload />} label="10" variant="outlined" />
+                                    <Chip icon={<GrFavorite />} label="100" variant="outlined" />
+                                </div>
+                            </div>
                         </div>
 
-                        <div className={styles.InfoContainer}>
-                            <span>name: {item.name}</span>
-                            <span>category: {item.category}</span>
-                            <span>price: ₹{item.price}</span>
-
-                            <div className={styles.tagContainer} >
-                                 {item.tags.map((item, idx) => <span key={idx}>{item}</span>)}
-                            </div>
-                           
-
-                            <div className={styles.stats} >
-                                <Chip icon={<AiOutlineDownload />} label="10" variant="outlined" />
-                                <Chip icon={<GrFavorite />} label="100" variant="outlined" />
-                            </div>
-                        </div>
-                    </div>
-
-                ))}
-            </div>
-             }
+                    ))}
+                </div>
+            }
         </Box>
     )
 }
