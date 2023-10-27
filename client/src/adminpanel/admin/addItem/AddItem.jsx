@@ -187,7 +187,7 @@ const AddItem = () => {
                 type="file"
                 id="profile"
                 name="imageUrl"
-                accept=".jpg,.png,.jpeg"
+                accept="image/*"
                 onChange={onUpload}
 
               />
