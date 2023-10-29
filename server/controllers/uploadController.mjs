@@ -52,11 +52,12 @@ const uploadFile = (req, res) => {
 };
 
 const addItem = async (req, res) => {
-  const { name, price, imageUrl, tags, driveId, driveName } =
+  const { name, description, price, imageUrl, tags, driveId, driveName } =
     req.body;
 
   if (
     !name ||
+    !description ||
     !price ||
     !imageUrl ||
     !tags ||

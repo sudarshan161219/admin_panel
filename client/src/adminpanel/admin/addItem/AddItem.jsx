@@ -19,6 +19,7 @@ const AddItem = () => {
 
   const [state, setState] = useState({
     name: '',
+    description: '',
     price: '',
     imageUrl: '',
     tags: [],
@@ -130,6 +131,8 @@ const AddItem = () => {
             />
 
           </FormControl>
+
+          <textarea name="description" onChange={handleInputChange} className={styles.textarea} placeholder="product description"></textarea>
 
           <FormControl >
             <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
