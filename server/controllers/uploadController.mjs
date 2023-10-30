@@ -23,7 +23,7 @@ const uploadFile = (req, res) => {
   const file = req.file;
   const fileMetadata = {
     name: file.originalname,
-    parents: ["1KLd-P7tYDIuHbu5UwpMXiLPVkypbWqV-"],
+    parents: ["1-8hriMeVmw6vJxoGHSl6NF_CJzaMm_Bn"],
   };
 
   const media = {
@@ -50,6 +50,27 @@ const uploadFile = (req, res) => {
     }
   );
 };
+
+
+const deleteFile = async (req, res) => {
+  const { jsonObject } = req.body;
+  const { key1, key2 } = jsonObject;
+
+  await Product.findByIdAndDelete({ _id: key1 });
+  deleteGoogleFile(key2);
+  res.status(StatusCodes.OK).json({ msg: "Success Product removed" });
+};
+
+function deleteGoogleFile(key) {
+  const drive = google.drive({ version: "v3", auth: client });
+  drive.files.delete({ fileId: key }, (err) => {
+    if (err) {
+      console.error("Error deleting file:", err);
+    } else {
+      console.log("File deleted successfully");
+    }
+  });
+}
 
 const addItem = async (req, res) => {
   const { name, description, price, imageUrl, tags, driveId, driveName } =
@@ -83,46 +104,71 @@ const addItem = async (req, res) => {
 };
 
 const getItem = async (req, res) => {
-  const { search, sort } = req.query;
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 15;
+    const skip = (page - 1) * limit;
 
-  const queryObject = {
-    createdBy: req.user.userId,
-  };
+    const filter = {};
 
-  // $ Add stuff based on condition
-  // if (category !== 'all') {
-  //   queryObject.category = category;
-  // }
+    if (req.query.search) {
+      const searchQuery = new RegExp(req.query.search, "i");
+      filter.$or = [{ name: searchQuery }, { description: searchQuery }];
+    }
 
-  // if (price !== 0) {
-  //   queryObject.price = price;
-  // }
+    const sortOptions = {};
 
-  if (search) {
-    queryObject.name = { $regex: search, $options: "i" };
+    if (req.query.sortBy === "latest") {
+      sortOptions.createdAt = -1;
+    } else if (req.query.sortBy === "oldest") {
+      sortOptions.createdAt = 1;
+    }
+
+    // Price filter: Filter products by price range (minimum and maximum)
+    if (req.query.minPrice || req.query.maxPrice) {
+      filter.price = {}; // Create a sub-object for price filtering
+
+      if (req.query.minPrice) {
+        filter.price.$gte = Number(req.query.minPrice);
+      }
+
+      if (req.query.maxPrice) {
+        filter.price.$lte = Number(req.query.maxPrice);
+      }
+    }
+
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+
+    if (req.query.tag) {
+      filter.tags = req.query.tag;
+    }
+
+    const allProductPromise = Product.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort(sortOptions);
+
+    const totalProductPromise = Product.countDocuments(filter);
+
+    const [products, totalProducts] = await Promise.all([
+      allProductPromise,
+      totalProductPromise,
+    ]);
+
+    const numofPages = Math.ceil(totalProducts / limit);
+
+    return res.status(StatusCodes.OK).json({
+      products,
+      totalProducts,
+      numofPages,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Server error",
+    });
   }
-  //$ NO AWAIT
-  let result = Product.find(queryObject);
-
-  //$ Chain sort conditions
-  if (sort === "latest") {
-    result = result.sort("-createdAt");
-  }
-  if (sort === "oldest") {
-    result = result.sort("createdAt");
-  }
-
-  //$ setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
-  result = result.skip(skip).limit(limit);
-
-  const products = await result;
-
-  const totalProducts = await Product.countDocuments(queryObject);
-  const numofPages = Math.ceil(totalProducts / limit);
-  return res.status(StatusCodes.OK).json({ products, totalProducts, numofPages });
 };
 
-export { uploadFile, addItem, getItem };
+export { uploadFile, addItem, getItem, deleteFile };

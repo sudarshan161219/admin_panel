@@ -45,11 +45,11 @@ const AdminSidebar = () => {
                             </Link>
                         </li>
 
-                        <li className={styles.li}>
+                        {/* <li className={styles.li}>
                             <Link onClick={toggleAdminMenuFn} to="/admin/stats" className={styles.link}>
                             <FiUsers className={styles.icons} /> Stats
                             </Link>
-                        </li>
+                        </li> */}
 
                         <li onClick={logoutUser} className={styles.li}>
                             <AiOutlineLogout className={styles.icons} />Log out

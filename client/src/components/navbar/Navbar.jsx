@@ -30,15 +30,6 @@ const Navbar = () => {
     };
   }, [toggleMenu, toggleProfileMenu, toggleAuthModal]);
 
-  // const admin = location.pathname === "/admin/99025773623568154745460635436441622443649708975362114242464"
-  // const admin_auth = location.pathname === "/admin/99025773623568154745460635436441622443649708975362114242464/auth"
-  // const admin_add_item = location.pathname === "/admin/99025773623568154745460635436441622443649708975362114242464/add_item"
-  // const admin_my_item = location.pathname === "/admin/99025773623568154745460635436441622443649708975362114242464/my_item"
-  // const admin_users = location.pathname === "/admin/99025773623568154745460635436441622443649708975362114242464/users"
-
-  // if (admin || admin_auth || admin_add_item || admin_my_item || admin_users) {
-  //   return null
-  // }
 
   return (
     <nav

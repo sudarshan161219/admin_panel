@@ -1,85 +1,96 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from "./myitems.module.css"
+import { Link } from "react-router-dom"
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import Chip from '@mui/material/Chip';
-import { useEffect } from "react";
-import { useAppContext } from "../../../context/Context";
-import {
-    AiOutlineDownload
-} from "react-icons/ai"
-import {
-    GrFavorite
-} from "react-icons/gr"
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import { Card } from "../../../components/export"
+
+
 
 
 const MyItems = () => {
-    const { getProductFn, products, isLoading } = useAppContext()
+    const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState('');
+    const [sortBy, setSortBy] = useState('latest');
+    const [isLoading, setIsLoading] = useState(false)
+
+
+    const fetchProducts = async () => {
+        setIsLoading(true)
+        try {
+            const response = await axios.get('/api/admin/item', {
+                params: {
+                    page: 1,
+                    limit: 5,
+                    search,
+                    sortBy,
+                },
+            });
+            setIsLoading(false)
+            setProducts(response.data.products);
+        } catch (error) {
+            setIsLoading(false)
+            console.error(error);
+        }
+    };
+
+
 
     useEffect(() => {
-        getProductFn()
-    }, [])
+        fetchProducts();
+    }, [search, sortBy]);
 
 
-    if (isLoading) {
-        return (
-            <div className={styles.headContainer}> <h1 className={styles.heading}>LOADING.....🙄</h1> </div>
-        )
 
-    }
 
     return (
         <Box className={styles.container}>
+
+
             <div className={styles.inputContainer} >
-                <Paper
-                    component="form"
-                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 500 }}
-                >
-                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                        <SearchIcon />
-                    </IconButton>
-                    <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search "
-                        inputProps={{ 'aria-label': 'search google maps' }}
-                    />
-                </Paper>
+                <TextField
+                    fullWidth
+                    label="Search"
+                    id="outlined-size-small"
+                    defaultValue={search}
+                    size="small"
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+
+
+                <FormControl sx={{ minWidth: 120 }} size="small">
+                    <Select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                        <MenuItem value={'latest'}>Latest</MenuItem>
+                        <MenuItem value={'oldest'}>Oldest</MenuItem>
+                    </Select>
+                </FormControl>
             </div>
-            {products.length === 0 ?
-
-                <div className={styles.headContainer}> <h1 className={styles.heading}>No Products</h1> </div>
-
-                :
-
-                <div className={styles.downloadsContainer} >
-                    {products.map((item, idx) => (
-                        <div key={idx} className={styles.card}>
-                            <div className={styles.imgContainer}>
-                                <img className={styles.img} src={item.imageUrl} alt={item.name} />
-                            </div>
-
-                            <div className={styles.InfoContainer}>
-                                <span>name: {item.name}</span>
-                                <span>category: {item.category}</span>
-                                <span>price: ₹{item.price}</span>
-
-                                <div className={styles.tagContainer} >
-                                    {item.tags.map((item, idx) => <span key={idx}>{item}</span>)}
-                                </div>
 
 
-                                <div className={styles.stats} >
-                                    <Chip icon={<AiOutlineDownload />} label="10" variant="outlined" />
-                                    <Chip icon={<GrFavorite />} label="100" variant="outlined" />
-                                </div>
-                            </div>
-                        </div>
+            {isLoading ? <div className={styles.headContainer}> <h1 className={styles.heading}>LOADING.....🙄</h1> </div> :
 
-                    ))}
-                </div>
+                (products.length === 0 ?
+                    <div className={styles.headContainer}> <h1 className={styles.heading}>No Products</h1> </div>
+                    :
+                    <div className={styles.cards}>
+                        {products.map((item) => (
+                            <Link key={item._id}><Card item={item} /></Link>
+                        ))}
+                    </div>
+
+                )
+
             }
+
         </Box>
     )
 }

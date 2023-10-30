@@ -6,11 +6,13 @@ import {
   uploadFile,
   addItem,
   getItem,
+  deleteFile,
 } from "../controllers/uploadController.mjs";
 
 const upload = multer({ dest: "uploads/" });
 
 router.route("/upload").post(upload.single("file"), uploadFile);
+router.route("/deleteFile").post(deleteFile);
 router.route("/add_item").post(addItem);
 router.route("/item").get(getItem);
 
