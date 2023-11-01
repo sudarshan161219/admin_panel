@@ -5,7 +5,7 @@ import { Ripple } from "../../components/export"
 import { useAppContext } from "../../context/Context";
 import { MdOutlineManageAccounts } from "react-icons/md"
 import { GrAddCircle } from "react-icons/gr"
-import { BsBoxSeam } from "react-icons/bs"
+import { BsBoxSeam, BsPencil } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import { FiUsers } from "react-icons/fi"
 import { AiOutlineLogout } from "react-icons/ai"
@@ -41,7 +41,7 @@ const AdminSidebar = () => {
 
                         <li className={styles.li}>
                             <Link onClick={toggleAdminMenuFn} to="/admin/my_item" className={styles.link}>
-                            <BsBoxSeam className={styles.icons} /> My Items
+                                <BsBoxSeam className={styles.icons} /> My Items
                             </Link>
                         </li>
 
@@ -50,6 +50,12 @@ const AdminSidebar = () => {
                             <FiUsers className={styles.icons} /> Stats
                             </Link>
                         </li> */}
+
+                        <li className={styles.li}>
+                            <Link onClick={toggleAdminMenuFn} to="/admin/write" className={styles.link}>
+                                <BsPencil className={styles.icons} />  Write Blog
+                            </Link>
+                        </li>
 
                         <li onClick={logoutUser} className={styles.li}>
                             <AiOutlineLogout className={styles.icons} />Log out
