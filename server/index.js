@@ -17,7 +17,6 @@ import uploadRoute from "./route/uploadRoute.mjs";
 import notFoundMiddleware from "./middlewares/not-found.mjs";
 import errorHandlerMiddleware from "./middlewares/error-handler.mjs";
 import auth from "./middlewares/auth.mjs";
-import passport from "passport";
 import session from "express-session";
 
 const PORT = process.env.PORT || 3000;
