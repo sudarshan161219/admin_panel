@@ -40,11 +40,16 @@
   color: var(--textColor);
 }
 
-
-@media screen and (min-width:500px) {
+@media screen and (min-width: 500px) {
   .userContainer {
     display: flex;
     justify-content: center;
   }
-  
+}
+
+@media screen and (min-width: 700px) {
+  .tabContainer {
+    width: 650px;
+    margin: 0 auto;
+  }
 }
