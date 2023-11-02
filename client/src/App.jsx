@@ -4,7 +4,10 @@ import {
   AdminSharedLayout, Auth, Panel, AddItem,
   Stats,
   MyItems,
-  Write
+  Write,
+  Blog,
+  Post,
+  UserInfo
 } from "./adminpanel/export"
 import { Toaster } from "react-hot-toast"
 
@@ -25,6 +28,9 @@ const App = () => {
           <Route path="stats" element={<Stats />} />
           <Route path="my_Item" element={<MyItems />} />
           <Route path="write" element={<Write />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="post/:id" element={<Post />} />
+          <Route path="user/:id" element={<  UserInfo />} />
         </Route>
         <Route path="/" element={<Auth />} />
         <Route path="*" element={<h1>no page found</h1>} />

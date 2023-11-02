@@ -1,15 +1,18 @@
 import styles from "./cards.module.css"
 import axios from "axios"
+import { AiOutlineDelete } from "react-icons/ai"
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { toast } from "react-hot-toast";
-import {
-    AiOutlineEdit,
-    AiOutlineDelete
-} from "react-icons/ai"
 // eslint-disable-next-line react/prop-types
-const Card = ({ item }) => {
+const Cardd = ({ item }) => {
 
     // eslint-disable-next-line react/prop-types
-    const { _id, driveId } = item
+    const { _id, driveId, name,description, imageUrl } = item
 
 
     const jsonObject = {
@@ -38,22 +41,25 @@ const Card = ({ item }) => {
 
 
     return (
-        <div className={styles.card}>
-
-            <div className={styles.top1overlay}>
-                <h1 className={styles.name}>{item.name}</h1>
-
-                <div className={styles.controlls}>
-                    {/* <button> <AiOutlineEdit /> edit</button> */}
-                    <button onClick={handleClick}> < AiOutlineDelete className={styles.icon} /></button>
-                </div>
-            </div>
-
-            <img className={styles.img} src={item.imageUrl} alt={item.name} />
-
-
-        </div >
+        <Card className={styles.card}>
+        <CardMedia
+            sx={{ height: 140 }}
+            image={imageUrl }
+            title={name}
+        />
+        <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                {name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+                {description}
+            </Typography>
+        </CardContent>
+        <CardActions className={styles.actions}>
+            <button className={styles.btn} onClick={handleClick}><AiOutlineDelete className={styles.icon} /></button>
+        </CardActions>
+    </Card>
     )
 }
 
-export default Card
+export default Cardd

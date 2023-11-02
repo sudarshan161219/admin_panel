@@ -17,5 +17,5 @@ transition: ease-in 0.1s;
 .actions{
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
 }

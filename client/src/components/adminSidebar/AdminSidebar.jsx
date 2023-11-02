@@ -5,7 +5,7 @@ import { Ripple } from "../../components/export"
 import { useAppContext } from "../../context/Context";
 import { MdOutlineManageAccounts } from "react-icons/md"
 import { GrAddCircle } from "react-icons/gr"
-import { BsBoxSeam, BsPencil } from "react-icons/bs"
+import { BsBoxSeam, BsPencil, BsFilePost } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import { FiUsers } from "react-icons/fi"
 import { AiOutlineLogout } from "react-icons/ai"
@@ -45,17 +45,26 @@ const AdminSidebar = () => {
                             </Link>
                         </li>
 
-                        {/* <li className={styles.li}>
+                        <li className={styles.li}>
                             <Link onClick={toggleAdminMenuFn} to="/admin/stats" className={styles.link}>
-                            <FiUsers className={styles.icons} /> Stats
+                            <FiUsers className={styles.icons} /> Users
                             </Link>
-                        </li> */}
+                        </li>
 
                         <li className={styles.li}>
                             <Link onClick={toggleAdminMenuFn} to="/admin/write" className={styles.link}>
                                 <BsPencil className={styles.icons} />  Write Blog
                             </Link>
                         </li>
+
+
+                        <li className={styles.li}>
+                            <Link onClick={toggleAdminMenuFn} to="/admin/blog" className={styles.link}>
+                                <BsFilePost className={styles.icons} />  posts
+                            </Link>
+                        </li>
+
+
 
                         <li onClick={logoutUser} className={styles.li}>
                             <AiOutlineLogout className={styles.icons} />Log out

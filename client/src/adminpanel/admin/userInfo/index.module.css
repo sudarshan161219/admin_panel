@@ -1,0 +1,50 @@
+.container {
+  padding: 10px;
+}
+
+.userContainer {
+  display: flex;
+  gap: 15px;
+  margin: 2rem 0;
+  align-items: start;
+}
+
+.userImg {
+  width: 100px;
+  border-radius: 100%;
+  outline: 1px solid #817f7f;
+}
+
+.textInfo {
+  display: grid;
+  gap: 15px;
+  justify-content: center;
+  /* text-align: center; */
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.textContainer {
+  display: grid;
+  gap: 8px;
+  font-size: 1rem;
+  color: #817f7f;
+  font-weight: 500;
+}
+
+.textContainer > span {
+  font-size: 0.9rem;
+  color: var(--textColor);
+}
+
+
+@media screen and (min-width:500px) {
+  .userContainer {
+    display: flex;
+    justify-content: center;
+  }
+  
+}

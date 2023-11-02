@@ -7,12 +7,14 @@ import "react-quill/dist/quill.snow.css";
 import imageCompression from "browser-image-compression";
 import { toast } from "react-hot-toast";
 import { convertToBase64 } from "../../../utils/convert";
+import Button from '@mui/material/Button';
 
 import {
     formats,
     placeholder,
     modulesTool,
 } from "../../../quill/tools";
+import { useAppContext } from "../../../context/Context";
 
 const initialState = {
     title: "",
@@ -20,12 +22,12 @@ const initialState = {
 };
 
 const Write = () => {
-
+    const { createPost, isLoading } = useAppContext()
     const [state, setState] = useState({
         name: '',
         description: '',
         coverImg: '',
-        author: '',
+        authorName: '',
         content: '',
         tags: [],
         category: '',
@@ -35,7 +37,7 @@ const Write = () => {
     const [vquill, setVQuill] = useState("");
     const [input, setInput] = useState("");
     const [tags, setTags] = useState([]);
-    const [alert, setAlert] = useState("")
+
 
 
 
@@ -49,7 +51,6 @@ const Write = () => {
 
     useEffect(() => {
 
-        //   setVQuill(htmlDecode(content) || content);
         setState({
             ...state,
             content: vquill
@@ -60,21 +61,16 @@ const Write = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData);
-
-        console.log(state);
-        // const { title, coverImg, content } = data;
+        const { name, description, coverImg, authorName, content, tags, category } = state
 
 
-
-        // if (!title || !coverImg || !content) {
-        //     toast.error("please provide all values");
-        // } else {
-        //     //   createPost(data);
-        //     console.log(data);
-        //     e.currentTarget.reset();
-        // }
+        if (!name || !description || !coverImg || !authorName || !content || !tags || !category) {
+            toast.error("please provide all values");
+        } else {
+            // console.log(state);
+            createPost(state)
+            e.currentTarget.reset();
+        }
     };
 
 
@@ -91,12 +87,6 @@ const Write = () => {
         setState({ ...state, [name]: value });
     };
 
-    // const handleChangeQ = (e) => {
-    //     setState({
-    //         ...state,
-    //         content: e.target.value
-    //     });
-    // }
 
 
     const onUpload = async (e) => {
@@ -125,116 +115,134 @@ const Write = () => {
         const { value } = e.target;
         setInput(value);
     };
+
+
     function handleKeyDown(e) {
-        if (e.key !== 'Enter') return
+        if (e.key !== ',') return
         const value = e.target.value
         if (!value.trim()) return
         setTags([...tags, value])
         setState({
-          ...state,
-          tags: [...tags, value]
+            ...state,
+            tags: [...tags, value]
         });
         e.target.value = ''
-      }
-    
-      function removeTag(index) {
+    }
+
+    function removeTag(index) {
         setTags(tags.filter((el, i) => i !== index))
         setState({
-          ...state,
-          tags: tags.filter((el, i) => i !== index)
+            ...state,
+            tags: tags.filter((el, i) => i !== index)
         });
-      }
+    }
 
     return (
-        <div className="row">
-            <form onSubmit={handleSubmit} className="quill-form">
-                <div className="form-row">
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            name="name"
-                            defaultValue={state.name}
-                            onChange={handleInputChange}
-                            className='title-input'
-                            placeholder="Title"
-                            required
-                        />
+        <div className="container">
+            <div className="row">
 
-                        <input
-                            type="text"
-                            name="description"
-                            defaultValue={state.description}
-                            onChange={handleInputChange}
-                            className='title-input'
-                            placeholder="Description"
-                            required
-                        />
+                <div className='title' >
+                    <h1>Compose Blog</h1>
+                </div>
 
-                        <input
-                            type="text"
-                            name="category"
-                            defaultValue={state.category}
-                            onChange={handleInputChange}
-                            className='title-input'
-                            placeholder="Category"
-                            required
-                        />
+                <form onSubmit={handleSubmit} className="quill-form">
+                    <div className="form-row">
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                name="name"
+                                defaultValue={state.name}
+                                onChange={handleInputChange}
+                                className='title-input'
+                                placeholder="Title"
+                            // required
+                            />
 
-                        <div className='tagsinputcontainer'>
-                            {
-                                tags.map((tag, index) => (
-                                    <div key={index} className='tagitem'>
-                                        <span className='text'>{tag}</span>
-                                        <span className='close' onClick={() => removeTag(index)}>&times;</span>
-                                    </div>
-                                ))
-                            }
+                            <input
+                                type="text"
+                                name="description"
+                                defaultValue={state.description}
+                                onChange={handleInputChange}
+                                className='title-input'
+                                placeholder="Description"
+                            // required
+                            />
 
-                            <input onKeyDown={handleKeyDown} type="text" name="tags" className='tagsinput' placeholder="Tags" />
+                            <input
+                                type="text"
+                                name="category"
+                                defaultValue={state.category}
+                                onChange={handleInputChange}
+                                className='title-input'
+                                placeholder="Category"
+                            // required
+                            />
+
+
+                            <input
+                                type="text"
+                                name="authorName"
+                                defaultValue={state.author}
+                                onChange={handleInputChange}
+                                className='title-input'
+                                placeholder="Author"
+                            // required
+                            />
+
+                            <div>
+                                <div className='tagsinputcontainer'>
+                                    {
+                                        tags.map((tag, index) => (
+                                            <div key={index} className='tagitem'>
+                                                <span className='text'>{tag}</span>
+                                                <span className='close' onClick={() => removeTag(index)}>&times;</span>
+                                            </div>
+                                        ))
+                                    }
+
+                                    <input onKeyDown={handleKeyDown} type="text" name="tags" className='tagsinput' placeholder="press ',' to add tags" />
+                                </div>
+                            </div>
+
+
+                            <div className="cover-img-container">
+                                <label className="image-label" htmlFor="cover-image">
+                                    {file &&
+                                        <img
+                                            className="cover-img"
+                                            src={file}
+                                            alt="loading"
+                                        />}
+                                    {file ? null : <div className="chip">  <Chip label="upload cover Image" variant="outlined" /></div>}
+                                </label>
+                                <input
+                                    type="file"
+                                    id="cover-image"
+                                    onChange={onUpload}
+                                    accept="image/*"
+                                />
+                            </div>
                         </div>
 
-                        <div className="cover-img-container">
-                            <label className="image-label" htmlFor="cover-image">
-                                {file &&
-                                    <img
-                                        className="cover-img"
-                                        src={file}
-                                        alt="loading"
-                                    />}
-                                {file ? null : <div className="chip">  <Chip label="upload cover Image" variant="outlined" /></div>}
-                            </label>
-                            <input
-                                type="file"
-                                id="cover-image"
-                                onChange={onUpload}
-                                accept="image/*"
+                        <div>
+                            <ReactQuill
+                                modules={modulesTool}
+                                formats={formats}
+                                theme="snow"
+                                value={vquill}
+                                placeholder={placeholder}
+                                onChange={setVQuill}
                             />
                         </div>
+
+                        <div className="btn-container">
+                            <Button  sx={{ width: '100%' }}type="submit" variant="contained" color="success">
+                                Publish
+                            </Button>
+                        </div>
                     </div>
-
-
-
-                    <div>
-                        <ReactQuill
-                            modules={modulesTool}
-                            formats={formats}
-                            theme="snow"
-                            value={vquill}
-                            placeholder={placeholder}
-                            onChange={setVQuill}
-                        />
-                    </div>
-
-                    <div className="btn-container">
-                        <button
-                            type="submit"
-
-                            className="button-4 quill-btn"
-                        >Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     )
 }

@@ -16,6 +16,9 @@ import {
     GET_CURRENT_USER_BEGIN,
     GET_CURRENT_USER_SUCCESS,
     GET_CURRENT_USER_ERROR,
+    CREATE_POST_BEGIN,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_ERROR,
     GET_ADMIN_BEGIN,
     GET_ADMIN_SUCCESS,
     GET_ADMIN_ERROR,
@@ -155,6 +158,18 @@ const reducer = (state, action) => {
             ...state,
             userLoading: false,
         };
+    }
+
+    if (action.type === CREATE_POST_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+
+    if (action.type === CREATE_POST_SUCCESS) {
+        return { ...state, isLoading: false, created: true };
+    }
+
+    if (action.type === CREATE_POST_ERROR) {
+        return { ...state, isLoading: false, created: false };
     }
 
     if (action.type === GET_ADMIN_BEGIN) {

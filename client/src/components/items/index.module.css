@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+}
+
+.box {
+  display: flex;
+  /* align-items: start; */
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 15px;
+
+  gap: 20px;
+  padding: 0.3rem;
+}
+.box:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  transition: 0.2s;
+}
+.img {
+  width: 150px;
+  height: 150px;
+}
+
+.infoContainer {
+  display: flex;
+  gap: 7px;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.infoContainer > span {
+  font-size: 1.1rem;
+  font-weight: 500;
+}

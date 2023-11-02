@@ -11,7 +11,8 @@
   margin-top: 2.5rem;
 }
 
-.page {
+
+.page{
   display: flex;
   justify-content: center;
 }
@@ -22,7 +23,7 @@
 }
 
 @media screen and (min-width: 720px) {
-  .inputContainer {
+  .inputContainer{
     width: 650px;
     margin: 0 auto;
   }

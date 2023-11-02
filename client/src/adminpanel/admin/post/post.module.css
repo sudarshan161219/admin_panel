@@ -1,0 +1,103 @@
+.container {
+  margin-top: 2.2rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.Postcontainer {
+  display: grid;
+  gap: 2rem;
+  border-bottom: var(--softTextColor) 1px solid;
+}
+
+.infoContainer {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 120%;
+  color: var(--textColor);
+}
+
+.postInfo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.icon {
+  font-size: 1.2rem;
+  color: var(--softTextColor);
+}
+
+.date {
+  color: var(--softTextColor);
+  font-size: 0.9rem;
+}
+
+.imgContainer {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: -webkit-fill-available;
+}
+
+.text {
+  color: var(--softTextColor);
+  font-weight: 400;
+  line-height: 200%;
+}
+
+.textContainer {
+  display: grid;
+  gap: 1rem;
+}
+
+.headContainer{
+    margin:  2rem 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .heading{
+    font-size: 2.5rem;
+  }
+
+@media screen and (min-width: 700px) {
+  .imgContainer {
+    height: 350px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .imgContainer {
+    height: 550px;
+  }
+  .title {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  .postInfo {
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .Postcontainer,
+  .commentsContainer {
+    width: 900px;
+    margin: auto;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+}

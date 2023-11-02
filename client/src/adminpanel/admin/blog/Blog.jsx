@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import styles from "./users.module.css"
-import { StatCard } from "../../../components/export"
+import styles from "./blog.module.css"
+import { BlogCard } from "../../../components/export"
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,29 +8,33 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
 
 
-const Stats = () => {
-
+const Blog = () => {
     const [page, setPage] = useState(1);
-    const [users, setUsers] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState('');
+    const [sortBy, setSortBy] = useState('latest');
+    const [category, setCategory] = useState('');
     const [numOfPages, setNumOfPages] = useState('')
+    const [tag, setTag] = useState('');
     const [isLoading, setIsLoading] = useState(false)
 
     const fetchPosts = async () => {
         setIsLoading(true)
         try {
-            const response = await axios.get('/api/admin/get_users', {
+            const response = await axios.get('/api/admin/getPosts', {
                 params: {
                     page: page,
                     limit: 10,
                     search,
+                    sortBy,
+                    category,
+                    tag,
                 },
             });
             setIsLoading(false)
-            setUsers(response.data.users);
+            setPosts(response.data.post);
             setNumOfPages(response.data.numofPages)
         } catch (error) {
             setIsLoading(false)
@@ -40,7 +44,7 @@ const Stats = () => {
 
     useEffect(() => {
         fetchPosts();
-    }, [search, page, numOfPages]);
+    }, [search, sortBy, category, tag, page, numOfPages]);
 
     const handleChange = (event, value) => {
         setPage(value);
@@ -58,24 +62,35 @@ const Stats = () => {
                     size="small"
                     onChange={(e) => setSearch(e.target.value)}
                 />
+
+
+                <FormControl sx={{ minWidth: 120 }} size="small">
+                    <Select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                        <MenuItem value={'latest'}>Latest</MenuItem>
+                        <MenuItem value={'oldest'}>Oldest</MenuItem>
+                    </Select>
+                </FormControl>
             </div>
 
 
 
             <div className={styles.cards}>
-                {users.map((item) => (
-                    <Link to={`/admin/user/${item._id}`} key={item._id}><StatCard item={item} /></Link>
+                {posts.map((item) => (
+                    <BlogCard key={item._id} item={item} />
                 ))}
             </div>
 
+            {numOfPages > 1 && <div className={styles.page}>
+                <Pagination size="large" page={page} count={Number(numOfPages)} onChange={handleChange} color="secondary" />
+            </div>}
 
-            {numOfPages > 1 &&
-                <div className={styles.page}>
-                    <Pagination size="large" page={page} count={Number(numOfPages)} onChange={handleChange} color="secondary" />
-                </div>
-            }
         </Box>
     )
 }
 
-export default Stats
+export default Blog

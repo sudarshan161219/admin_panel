@@ -24,6 +24,9 @@ import {
     GOOGLE_DRIVE_FILE_BEGIN,
     GOOGLE_DRIVE_FILE_SUCCESS,
     GOOGLE_DRIVE_FILE_ERROR,
+    CREATE_POST_BEGIN,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_ERROR,
     CANCEL_GOOGLE_DRIVE_FILE_UPLOAD,
     UPDATE_ADMIN_BEGIN,
     UPDATE_ADMIN_SUCCESS,
@@ -241,7 +244,7 @@ const ContextProvider = ({ children }) => {
     };
 
     const getProductFn = async () => {
-        const { search,  sort, page} = state;
+        const { search, sort, page } = state;
         let url = `/api/admin/item?page=${page}&sort=${sort}`;
         if (search) {
             url = url + `&search=${search}`;
@@ -279,14 +282,40 @@ const ContextProvider = ({ children }) => {
     };
 
 
+    const createPost = async (data) => {
+        dispatch({ type: CREATE_POST_BEGIN });
+        try {
+            const { name, description, coverImg, authorName, content, tags, category } = data;
+            await authFetch.post("/api/admin/create-post", {
+                name, description, coverImg, authorName, content, tags, category
+            });
+
+            dispatch({ type: CREATE_POST_SUCCESS });
+            toast.success("Post successfully created!");
+        } catch (error) {
+            if (error.response.status === 401) {
+                return;
+            }
+            console.log(error);
+            toast.error(error.response.data.msg);
+            dispatch({
+                type: CREATE_POST_ERROR,
+            });
+        }
+    };
+
+
+    
+
+
     useEffect(() => {
         getAdmin()
-        
+
     }, [])
 
 
     return (
-        <Context.Provider value={{ ...state, toggleMenuFn, toggleSearchFn, toggleAdminMenuFn, toggleProfileMenuFn, toggleAuthModalFn, adminregisterFn, adminloginFn, uploadFn, UploadFIle_toGoogleDrive, cancelGoogleDriveFn, updateAdmnFn, logoutUser, getProductFn }} >
+        <Context.Provider value={{ ...state, toggleMenuFn, toggleSearchFn, toggleAdminMenuFn, toggleProfileMenuFn, toggleAuthModalFn, adminregisterFn, adminloginFn, uploadFn, UploadFIle_toGoogleDrive, cancelGoogleDriveFn, updateAdmnFn, logoutUser, getProductFn, createPost }} >
             {children}
         </Context.Provider>
     )
