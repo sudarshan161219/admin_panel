@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import "express-async-errors";
 import helmet from "helmet";
-import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -48,7 +47,6 @@ app.use(
   })
 );
 
-app.use(xss());
 app.use(mongoSanitize());
 app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
