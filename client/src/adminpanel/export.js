@@ -8,6 +8,7 @@ import Write from "./admin/write/Write.jsx";
 import Blog from "./admin/blog/Blog.jsx";
 import Post from "./admin/post/Post.jsx";
 import UserInfo from "./admin/userInfo/UserInfo.jsx";
+import Edit from "./admin/edit/Edit.jsx";
 
 export {
   AdminSharedLayout,
@@ -19,5 +20,6 @@ export {
   Write,
   Blog,
   Post,
-  UserInfo
+  UserInfo,
+  Edit,
 };

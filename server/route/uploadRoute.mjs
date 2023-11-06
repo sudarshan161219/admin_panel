@@ -7,6 +7,8 @@ import {
   addItem,
   getItem,
   deleteFile,
+  getSingleItem,
+  editPost,
 } from "../controllers/uploadController.mjs";
 import {
   getallpost,
@@ -33,7 +35,9 @@ router.route("/delete_post/:id").delete(deletePost);
 router.route("/post/:id").get(getPost);
 router.route("/get_users").get(getAllUsers);
 router.route("/get_user/:id").get(getUser);
-router.route("/get_user_saved_purchased_items/:id").get(getSavedItem)
+router.route("/get__single_item/:id").get(getSingleItem);
+router.route("/get_edit_single_item/:id").patch(editPost);
+router.route("/get_user_saved_purchased_items/:id").get(getSavedItem);
 router.route("/get_user_saved_purchased_items/:id").get(getPurchasedItem);
 
 export default router;

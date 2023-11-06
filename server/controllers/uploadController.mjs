@@ -51,7 +51,6 @@ const uploadFile = (req, res) => {
   );
 };
 
-
 const deleteFile = async (req, res) => {
   const { jsonObject } = req.body;
   const { key1, key2 } = jsonObject;
@@ -171,4 +170,26 @@ const getItem = async (req, res) => {
   }
 };
 
-export { uploadFile, addItem, getItem, deleteFile };
+const getSingleItem = async (req, res) => {
+  const { id: productId } = req.params;
+
+  const item = await Product.findById({ _id: productId });
+
+  return res.status(StatusCodes.CREATED).json({
+    item,
+  });
+};
+
+const editPost = async (req, res) => {
+  const { id: productId } = req.params;
+  const item = await Product.findById({ _id: productId });
+  if (!item) {
+    throw new NotFoundError(`No product with id : ${id}`);
+  }
+
+  const updatedItem = await Product.findOneAndUpdate({ _id: productId }, req.body);
+
+  res.status(StatusCodes.OK).json({ updatedItem });
+};
+
+export { uploadFile, addItem, getItem, deleteFile, getSingleItem, editPost };

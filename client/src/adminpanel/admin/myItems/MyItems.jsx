@@ -8,10 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-
 import { Card } from "../../../components/export"
-
-
 
 
 const MyItems = () => {
@@ -42,8 +39,6 @@ const MyItems = () => {
         }
     };
 
-
-
     useEffect(() => {
         fetchProducts();
     }, [search, sortBy]);
@@ -54,50 +49,7 @@ const MyItems = () => {
 
 
     return (
-        // <Box className={styles.container}>
-        //     <div className={styles.inputContainer} >
-        //         <TextField
-        //             fullWidth
-        //             label="Search"
-        //             id="outlined-size-small"
-        //             defaultValue={search}
-        //             size="small"
-        //             onChange={(e) => setSearch(e.target.value)}
-        //         />
-
-
-        //         <FormControl sx={{ minWidth: 120 }} size="small">
-        //             <Select
-        //                 value={sortBy}
-        //                 onChange={(e) => setSortBy(e.target.value)}
-        //                 displayEmpty
-        //                 inputProps={{ 'aria-label': 'Without label' }}
-        //             >
-        //                 <MenuItem value={'latest'}>Latest</MenuItem>
-        //                 <MenuItem value={'oldest'}>Oldest</MenuItem>
-        //             </Select>
-        //         </FormControl>
-        //     </div>
-
-
-        //     {isLoading ? <div className={styles.headContainer}> <h1 className={styles.heading}>LOADING.....🙄</h1> </div> :
-
-        //         (products.length === 0 ?
-        //             <div className={styles.headContainer}> <h1 className={styles.heading}>No Products</h1> </div>
-        //             :
-        //             <div className={styles.cards}>
-        //                 {products.map((item) => (
-        //                     <Link key={item._id}><Card item={item} /></Link>
-        //                 ))}
-        //             </div>
-
-        //         )
-
-        //     }
-
-        // </Box>
         <Box className={styles.container}>
-
             <div className={styles.inputContainer} >
                 <TextField
                     fullWidth
@@ -107,8 +59,6 @@ const MyItems = () => {
                     size="small"
                     onChange={(e) => setSearch(e.target.value)}
                 />
-
-
                 <FormControl sx={{ minWidth: 120 }} size="small">
                     <Select
                         value={sortBy}
@@ -121,26 +71,20 @@ const MyItems = () => {
                     </Select>
                 </FormControl>
             </div>
-
-         {isLoading ? <div className={styles.headContainer}> <h1 className={styles.heading}>LOADING.....🙄</h1> </div> :
-
-        (products.length === 0 ?
-            <div className={styles.headContainer}> <h1 className={styles.heading}>No Products</h1> </div>
-            :
-            <div className={styles.cards}>
-                {products.map((item) => (
-                    <Link key={item._id}><Card item={item} /></Link>
-                ))}
-            </div>
-
-        )
-
-    }
-
+            {isLoading ? <div className={styles.headContainer}> <h1 className={styles.heading}>LOADING.....🙄</h1> </div> :
+                (products.length === 0 ?
+                    <div className={styles.headContainer}> <h1 className={styles.heading}>No Products</h1> </div>
+                    :
+                    <div className={styles.cards}>
+                        {products.map((item) => (
+                            <Link key={item._id}><Card item={item} /></Link>
+                        ))}
+                    </div>
+                )
+            }
             {numOfPages > 1 && <div className={styles.page}>
                 <Pagination size="large" page={page} count={Number(numOfPages)} onChange={handleChange} color="secondary" />
             </div>}
-
         </Box>
     )
 }

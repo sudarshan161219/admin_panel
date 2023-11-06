@@ -7,7 +7,8 @@ import {
   Write,
   Blog,
   Post,
-  UserInfo
+  UserInfo,
+  Edit
 } from "./adminpanel/export"
 import { Toaster } from "react-hot-toast"
 
@@ -30,7 +31,8 @@ const App = () => {
           <Route path="write" element={<Write />} />
           <Route path="blog" element={<Blog />} />
           <Route path="post/:id" element={<Post />} />
-          <Route path="user/:id" element={<  UserInfo />} />
+          <Route path="user/:id" element={<UserInfo />} />
+          <Route path="edit/:id" element={<Edit />} />
         </Route>
         <Route path="/" element={<Auth />} />
         <Route path="*" element={<h1>no page found</h1>} />

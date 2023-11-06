@@ -3,6 +3,13 @@
 }
 
 .btn {
+  width: 40px;
+  height: 40px;
+  background-color: var(--softBg);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   cursor: pointer;
 }
@@ -10,12 +17,42 @@
   font-size: 1.3rem;
 }
 
-.btn:hover > .icon {
-color: tomato;
-transition: ease-in 0.1s;
-}
-.actions{
+.actions {
   display: flex;
   align-items: center;
   justify-content: end;
+  gap: 10px;
+}
+
+.ebtn {
+  width: 40px;
+  height: 40px;
+  background-color: var(--softBg);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--textColor);
+}
+
+.ebtn:hover > .icon {
+  color: rgb(122, 124, 219);
+  transition: ease-in 0.1s;
+}
+
+.btn:hover > .icon {
+  color: tomato;
+  transition: ease-in 0.1s;
+}
+
+.btn:hover,
+.ebtn:hover {
+  background-color: var(--softTextColor);
+  transition: ease-in 0.1s;
+}
+
+.btn:hover > .icon,
+.ebtn:hover  > .icon{
+color: var(--bg);
+  transition: ease-in 0.1s;
 }
